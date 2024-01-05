@@ -24,7 +24,17 @@
     "title": "Settings",
     "configure_instance": "Configure {instance}",
     "save": "Save",
-    "test_field": "Test field"
+    "pgadmin_fqdn": "postgresql hostname (FQDN)",
+    "lets_encrypt": "Request LE Certificate",
+    "http_to_https": "Force HTTPS",
+    "enabled": "Enabled",
+    "disabled": "Disabled",
+    "advanced": "Advanced",
+    "configuring": "Configuring",
+    "instance_configuration": "Configure postgresql",
+    "tcp_port_pgsql": "TCP port for postgresql",
+    "tcp_port_pgsql_tcp_port_tips": "TCP port restricted to the node localhost",
+    "domain_already_used_in_traefik": "Domain already used in traefik"
   },
   "about": {
     "title": "About"
