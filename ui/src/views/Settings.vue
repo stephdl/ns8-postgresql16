@@ -254,8 +254,6 @@ export default {
       }
     },
     async configureModule() {
-      this.error.test_imap = false;
-      this.error.test_smtp = false;
       const isValidationOk = this.validateConfigureModule();
       if (!isValidationOk) {
         return;
