@@ -78,11 +78,12 @@ pgadmin needs a default credential to login: `admin@nethserver.org` `Nethesis,12
     runagent -m postgresql1
     podman exec -ti postgresql-app psql -U postgres
 
-using another terminal, access the database from the host using the postgres uri
+2. using another terminal, access the database from the host using the postgres uri
 
-    psql postgresql://postgres:Nethesis,1234@localhost:${TCP_PORT_PGSQL}/postgres
+    psql postgresql://postgres:Nethesis,1234@IP_of_Node:${TCP_PORT_PGSQL}/postgres
 
 `${TCP_PORT_PGSQL} `is set inside the environment of the module
+`IP_of_Node` is the IP running the container, it might be the internal wiregard IP or the external IP of the node
 
 ## Get the configuration
 You can retrieve the configuration with
