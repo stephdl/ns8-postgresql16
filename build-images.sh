@@ -13,33 +13,39 @@ images=()
 # The image will be pushed to GitHub container registry
 repobase="${REPOBASE:-ghcr.io/nethserver}"
 # Configure the image name
-reponame="kickstart"
+reponame="postgresql"
 
 # Create a new empty container image
 container=$(buildah from scratch)
 
-# Reuse existing nodebuilder-kickstart container, to speed up builds
-if ! buildah containers --format "{{.ContainerName}}" | grep -q nodebuilder-kickstart; then
+# Reuse existing nodebuilder-postgresql container, to speed up builds
+if ! buildah containers --format "{{.ContainerName}}" | grep -q nodebuilder-postgresql; then
     echo "Pulling NodeJS runtime..."
-    buildah from --name nodebuilder-kickstart -v "${PWD}:/usr/src:Z" docker.io/library/node:lts
+    buildah from --name nodebuilder-postgresql -v "${PWD}:/usr/src:Z" docker.io/library/node:lts
 fi
 
 echo "Build static UI files with node..."
 buildah run \
     --workingdir=/usr/src/ui \
     --env="NODE_OPTIONS=--openssl-legacy-provider" \
-    nodebuilder-kickstart \
+    nodebuilder-postgresql \
     sh -c "yarn install && yarn build"
 
 # Add imageroot directory to the container image
 buildah add "${container}" imageroot /imageroot
 buildah add "${container}" ui/dist /ui
 # Setup the entrypoint, ask to reserve one TCP port with the label and set a rootless container
+# Select you image(s) with the label org.nethserver.images
+# ghcr.io/xxxxx is the GitHub container registry or your own registry or docker.io for Docker Hub
+# The image tag is set to latest by default, but can be overridden with the IMAGETAG environment variable
+# --label="org.nethserver.images=docker.io/mariadb:10.11.5 docker.io/roundcube/roundcubemail:1.6.4-apache"
+# rootfull=0 === rootless container
+# tcp-ports-demand=1 number of tcp Port to reserve , 1 is the minimum, can be udp or tcp
 buildah config --entrypoint=/ \
     --label="org.nethserver.authorizations=traefik@node:routeadm" \
-    --label="org.nethserver.tcp-ports-demand=1" \
+    --label="org.nethserver.tcp-ports-demand=2" \
     --label="org.nethserver.rootfull=0" \
-    --label="org.nethserver.images=docker.io/jmalloc/echo-server:latest" \
+    --label="org.nethserver.images=docker.io/dpage/pgadmin4:8.2 docker.io/postgres:14.10-bookworm" \
     "${container}"
 # Commit the image
 buildah commit "${container}" "${repobase}/${reponame}"
