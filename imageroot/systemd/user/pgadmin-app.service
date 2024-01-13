@@ -29,7 +29,7 @@ ExecStart=/usr/bin/podman run --conmon-pidfile %t/pgadmin-app.pid \
     --env 'PGADMIN_CONFIG_ENHANCED_COOKIE_PROTECTION=True' \
     --env 'PGADMIN_CONFIG_UPGRADE_CHECK_ENABLED=False' \
     --env 'PGADMIN_CONFIG_LOGIN_BANNER="Authorised users only!"' \
-    --env 'PGADMIN_CONFIG_CONSOLE_LOG_LEVEL=10' \
+    --env 'PGADMIN_CONFIG_CONSOLE_LOG_LEVEL=40' \
     --env-file=%S/state/smarthost.env \
     ${PGADMIN4_IMAGE}
 ExecStop=/usr/bin/podman stop --ignore --cidfile %t/pgadmin-app.ctr-id -t 10
