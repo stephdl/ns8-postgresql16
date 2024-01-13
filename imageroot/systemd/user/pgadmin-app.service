@@ -27,8 +27,10 @@ ExecStart=/usr/bin/podman run --conmon-pidfile %t/pgadmin-app.pid \
     --env 'PGADMIN_DEFAULT_EMAIL=admin@nethserver.org' \
     --env 'PGADMIN_DEFAULT_PASSWORD=Nethesis,1234' \
     --env 'PGADMIN_CONFIG_ENHANCED_COOKIE_PROTECTION=True' \
+    --env 'PGADMIN_CONFIG_UPGRADE_CHECK_ENABLED=False' \
     --env 'PGADMIN_CONFIG_LOGIN_BANNER="Authorised users only!"' \
     --env 'PGADMIN_CONFIG_CONSOLE_LOG_LEVEL=10' \
+    --env-file=%S/state/smarthost.env \
     ${PGADMIN4_IMAGE}
 ExecStop=/usr/bin/podman stop --ignore --cidfile %t/pgadmin-app.ctr-id -t 10
 ExecReload=/usr/bin/podman kill -s HUP pgadmin-app
