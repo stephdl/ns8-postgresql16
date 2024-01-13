@@ -19,7 +19,7 @@ ExecStart=/usr/bin/podman run --conmon-pidfile %t/postgresql-app.pid \
     --pod-id-file %t/postgresql.pod-id --replace -d --name postgresql-app \
     --env-file=%S/state/environment \
     --volume pgdata:/var/lib/postgresql/data:Z \
-    --env POSTGRES_USER=postgresql \
+    --env POSTGRES_USER=postgres \
     --env POSTGRES_PASSWORD=Nethesis,1234 \
     ${POSTGRES_IMAGE}
 ExecStop=/usr/bin/podman stop --ignore --cidfile %t/postgresql-app.ctr-id -t 10

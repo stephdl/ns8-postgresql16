@@ -4,9 +4,9 @@
             "Name": "Localhost Server",
             "Group": "Localhost server",
             "Port": 5432,
-            "Username": "postgresql",
+            "Username": "postgres",
             "Host": "127.0.0.1",
-            "MaintenanceDB": "postgresql",
+            "MaintenanceDB": "postgres",
             "PassFile": "/pgpassfile"
         }
     }
