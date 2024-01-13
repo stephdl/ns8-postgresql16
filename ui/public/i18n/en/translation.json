@@ -24,7 +24,7 @@
     "title": "Settings",
     "configure_instance": "Configure {instance}",
     "save": "Save",
-    "pgadmin_fqdn": "postgresql hostname (FQDN)",
+    "pgadmin_fqdn": "pgadmin hostname (FQDN)",
     "lets_encrypt": "Request LE Certificate",
     "http_to_https": "Force HTTPS",
     "enabled": "Enabled",
