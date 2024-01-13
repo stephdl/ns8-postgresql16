@@ -1,32 +1,11 @@
 # ns8-postgresql
 
-This is a template module for [NethServer 8](https://github.com/NethServer/ns8-core).
-To start a new module from it:
+PostgreSQL is a powerful, open source object-relational database system with over 35 years of active development that has earned it a strong reputation for reliability, feature robustness, and performance.
 
-1. Click on [Use this template](https://github.com/NethServer/ns8-postgresql/generate).
-   Name your repo with `ns8-` prefix (e.g. `ns8-mymodule`). 
-   Do not end your module name with a number, like ~~`ns8-baaad2`~~!
+pgAdmin is the most popular and feature rich Open Source administration and development platform for PostgreSQL, the most advanced Open Source database in the world.
 
-1. Clone the repository, enter the cloned directory and
-   [configure your GIT identity](https://git-scm.com/book/en/v2/Getting-Started-First-Time-Git-Setup#_your_identity)
-
-1. Rename some references inside the repo:
-   ```
-   modulename=$(basename $(pwd) | sed 's/^ns8-//')
-   git mv imageroot/systemd/user/postgresql.service imageroot/systemd/user/${modulename}.service
-   git mv tests/postgresql.robot tests/${modulename}.robot
-   sed -i "s/postgresql/${modulename}/g" $(find .github/ * -type f)
-   git commit -a -m "Repository initialization"
-   ```
-
-1. Edit this `README.md` file, by replacing this section with your module
-   description
-
-1. Adjust `.github/workflows` to your needs. `clean-registry.yml` might
-   need the proper list of image names to work correctly. Unused workflows
-   can be disabled from the GitHub Actions interface.
-
-1. Commit and push your local changes
+# pgadmin documentation
+- https://www.pgadmin.org/docs/pgadmin4/latest/container_deployment.html
 
 ## Install
 
@@ -46,7 +25,7 @@ Output example:
 Let's assume that the mattermost instance is named `postgresql1`.
 
 Launch `configure-module`, by setting the following parameters:
-- `host`: a fully qualified domain name for the application
+- `host`: a fully qualified domain name for the pgadmin application
 - `http2https`: enable or disable HTTP to HTTPS redirection (true/false)
 - `lets_encrypt`: enable or disable Let's Encrypt certificate (true/false)
 
