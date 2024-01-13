@@ -67,6 +67,10 @@ The above command will:
 - start and configure the postgresql instance
 - configure a virtual host for trafik to access the instance
 
+
+## default credential 
+
+pgadmin needs a default credential to login: `admin@nethserver.org` `Nethesis,1234` the URL is at the `host` property
 ## Get the configuration
 You can retrieve the configuration with
 
