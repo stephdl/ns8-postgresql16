@@ -1,19 +1,19 @@
 {
   "name": "postgresql",
   "description": {
-    "en": "My postgresql module"
+    "en": "Postgres is a free and open-source relational database management system"
   },
-  "categories": [],
+  "categories": ["database"],
   "authors": [
     {
-      "name": "Name Surname",
-      "email": "author@yourmail.org"
+      "name": "stephane de Labrusse",
+      "email": "stephdl@de-labrusse.fr"
     }
   ],
   "docs": {
-    "documentation_url": "https://docs.postgresql.com/",
+    "documentation_url": "https://github.com/NethServer/ns8-postgresql/blob/main/README.md",
     "bug_url": "https://github.com/NethServer/dev",
-    "code_url": "https://github.com/author/ns8-postgresql"
+    "code_url": "https://github.com/NethServer/ns8-postgresql"
   },
   "source": "ghcr.io/nethserver/postgresql"
 }
