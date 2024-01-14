@@ -9,7 +9,7 @@ set -e -o pipefail
 exec 1>&2 # Redirect any output to the journal (stderr)
 
 mkdir -vp restore
-cat - >restore/mattermost_restore.sh <<'EOS'
+cat - >restore/postgresql_restore.sh <<'EOS'
 # Read dump file from standard input and restore all databases:
 psql -U postgres -f /tmp/postgresql.pg_dump
 ec=$?
