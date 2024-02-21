@@ -34,7 +34,9 @@
     "instance_configuration": "Configure postgresql",
     "tcp_port_pgsql": "TCP port for postgresql",
     "tcp_port_pgsql_tcp_port_tips": "TCP port restricted to the node localhost",
-    "domain_already_used_in_traefik": "Domain already used in traefik"
+    "domain_already_used_in_traefik": "Domain already used in traefik",
+    "host_pattern": "Must be a valid fully qualified domain name",
+    "host_format": "Must be a valid fully qualified domain name"
   },
   "about": {
     "title": "About"
