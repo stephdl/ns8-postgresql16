@@ -23,7 +23,7 @@
       <cv-column>
         <cv-tile light>
           <cv-form @submit.prevent="configureModule">
-            <cv-text-input
+            <NsTextInput
               :label="$t('settings.pgadmin_fqdn')"
               placeholder="postgresql.example.org"
               v-model.trim="host"
@@ -31,8 +31,13 @@
               :invalid-message="$t(error.host)"
               :disabled="loading.getConfiguration || loading.configureModule"
               ref="host"
+              tooltipAlignment="center"
+              tooltipDirection="right"
             >
-            </cv-text-input>
+            <template slot="tooltip">
+              <div v-html="$t('settings.password_tips')"></div>
+            </template>
+            </NsTextInput>
             <cv-toggle
               value="letsEncrypt"
               :label="$t('settings.lets_encrypt')"
