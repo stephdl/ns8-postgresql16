@@ -22,7 +22,7 @@ ExecStart=/usr/bin/podman run --conmon-pidfile %t/pgadmin-app.pid \
     --cidfile %t/pgadmin-app.ctr-id --cgroups=no-conmon \
     --pod-id-file %t/postgresql.pod-id --replace -d --name  pgadmin-app \
     --volume pgadmin-data:/var/lib/pgadmin:Z \
-    --volume ./servers.json:/pgadmin4/servers.json:Z \
+    --volume ./config_server.json:/pgadmin4/config_server.json:Z \
     --volume ./pgpassfile:/pgadmin4/pgpassfile:Z \
     --env 'PGADMIN_DEFAULT_EMAIL=admin@nethserver.org' \
     --env 'PGADMIN_DEFAULT_PASSWORD=Nethesis,1234' \
@@ -33,6 +33,8 @@ ExecStart=/usr/bin/podman run --conmon-pidfile %t/pgadmin-app.pid \
     --env 'PGADMIN_CONFIG_CONFIG_DATABASE_URI="postgresql://postgres:Nethesis,1234@127.0.0.1:5432/postgres"' \
     --env-file=%S/state/smarthost.env \
     ${PGADMIN4_IMAGE}
+ExecStartPost=/usr/bin/bash -c "while ! podman exec pgadmin-app /venv/bin/python3 setup.py get-users ;  do sleep 5 ; done"
+ExecStartPost=/usr/bin/podman exec pgadmin-app /venv/bin/python3 setup.py load-servers config_server.json --replace  --user admin@nethserver.org
 ExecStop=/usr/bin/podman stop --ignore --cidfile %t/pgadmin-app.ctr-id -t 10
 ExecReload=/usr/bin/podman kill -s HUP pgadmin-app
 SyslogIdentifier=%u
