@@ -11,6 +11,7 @@ After=postgresql.service pgadmin-app.service
 [Service]
 Environment=PODMAN_SYSTEMD_UNIT=%n
 EnvironmentFile=%S/state/environment
+EnvironmentFile=%S/state/secrets/passwords.secret
 EnvironmentFile=-%S/state/smarthost.env
 WorkingDirectory=%S/state
 Restart=always
@@ -30,7 +31,7 @@ ExecStart=/usr/bin/podman run --conmon-pidfile %t/pgadmin-app.pid \
     --env 'PGADMIN_CONFIG_UPGRADE_CHECK_ENABLED=False' \
     --env 'PGADMIN_CONFIG_LOGIN_BANNER="Authorised users only!"' \
     --env 'PGADMIN_CONFIG_CONSOLE_LOG_LEVEL=40' \
-    --env 'PGADMIN_CONFIG_CONFIG_DATABASE_URI="postgresql://postgres:Nethesis,1234@127.0.0.1:5432/postgres"' \
+    --env 'PGADMIN_CONFIG_CONFIG_DATABASE_URI="postgresql://postgres:${POSTGRES_PASSWORD}@127.0.0.1:5432/postgres"' \
     --env-file=%S/state/smarthost.env \
     ${PGADMIN4_IMAGE}
 ExecStartPost=/usr/bin/bash -c "while ! podman exec pgadmin-app /venv/bin/python3 setup.py get-users ;  do sleep 5 ; done"
