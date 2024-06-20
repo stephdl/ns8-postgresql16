@@ -11,7 +11,7 @@ After=postgresql.service
 [Service]
 Environment=PODMAN_SYSTEMD_UNIT=%n
 EnvironmentFile=%S/state/environment
-EnvironmentFile=%S/state/secrets/passwords.secret
+EnvironmentFile=%S/state/secrets/passwords.env
 Restart=always
 TimeoutStopSec=70
 ExecStartPre=/bin/rm -f %t/postgresql-app.pid %t/postgresql-app.ctr-id

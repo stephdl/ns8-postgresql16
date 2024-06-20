@@ -65,7 +65,7 @@ pgadmin needs a default credential to login: `admin@nethserver.org` `Nethesis,12
 psql -h IP_of_Node -U postgres -d postgres -p ${TCP_PORT_PGSQL}
 ```
 
-The password of postgres user can be found inside a secret file `/home/postgresql1/.config/state/secrets/passwords.secret`
+The password of postgres user can be found inside a secret file `/home/postgresql1/.config/state/secrets/passwords.env`
 
 `${TCP_PORT_PGSQL} `is set inside the environment of the module
 
