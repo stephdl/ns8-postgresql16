@@ -5,9 +5,9 @@
             "Group": "Localhost server",
             "Port": 5432,
             "Username": "postgres",
-            "Host": "127.0.0.1",
+            "Host": "/var/run/postgresql/",
             "MaintenanceDB": "postgres",
-            "PassFile": "/pgpassfile"
+            "PassFile": ""
         }
     }
 }

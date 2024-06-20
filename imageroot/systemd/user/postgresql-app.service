@@ -20,6 +20,7 @@ ExecStart=/usr/bin/podman run --conmon-pidfile %t/postgresql-app.pid \
     --pod-id-file %t/postgresql.pod-id --replace -d --name postgresql-app \
     --env-file=%S/state/environment \
     --volume pgdata:/var/lib/postgresql/data:Z \
+    --volume socket:/var/run/postgresql:z \
     --env POSTGRES_USER=postgres \
     --env POSTGRES_PASSWORD=${POSTGRES_PASSWORD} \
     ${POSTGRES_IMAGE}
