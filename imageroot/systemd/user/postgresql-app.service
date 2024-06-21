@@ -11,6 +11,7 @@ After=postgresql.service
 [Service]
 Environment=PODMAN_SYSTEMD_UNIT=%n
 EnvironmentFile=%S/state/environment
+EnvironmentFile=%S/state/secrets/passwords.env
 Restart=always
 TimeoutStopSec=70
 ExecStartPre=/bin/rm -f %t/postgresql-app.pid %t/postgresql-app.ctr-id
@@ -19,8 +20,9 @@ ExecStart=/usr/bin/podman run --conmon-pidfile %t/postgresql-app.pid \
     --pod-id-file %t/postgresql.pod-id --replace -d --name postgresql-app \
     --env-file=%S/state/environment \
     --volume pgdata:/var/lib/postgresql/data:Z \
+    --volume socket:/var/run/postgresql:z \
     --env POSTGRES_USER=postgres \
-    --env POSTGRES_PASSWORD=Nethesis,1234 \
+    --env POSTGRES_PASSWORD=${POSTGRES_PASSWORD} \
     ${POSTGRES_IMAGE}
 ExecStop=/usr/bin/podman stop --ignore --cidfile %t/postgresql-app.ctr-id -t 10
 ExecStopPost=/usr/bin/podman rm --ignore -f --cidfile %t/postgresql-app.ctr-id

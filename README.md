@@ -58,15 +58,18 @@ pgadmin needs a default credential to login: `admin@nethserver.org` `Nethesis,12
     runagent -m postgresql1
     podman exec -ti postgresql-app psql -U postgres
 
-2. using another terminal, access the database from the host using the postgres uri
+
+2 - access inside the cluster via the network
 
 ```
-psql postgresql://postgres:Nethesis,1234@IP_of_Node:${TCP_PORT_PGSQL}/postgres
+psql -h IP_of_Node -U postgres -d postgres -p ${TCP_PORT_PGSQL}
 ```
 
-`${TCP_PORT_PGSQL} `is set inside the environment of the module
+The password of postgres user can be found inside a secret file `/home/postgresql1/.config/state/secrets/passwords.env`
 
-`IP_of_Node` is the IP running the container, it might be the internal wiregard IP or the external IP of the node
+`${TCP_PORT_PGSQL} `is set inside the environment of the module ans visible in the settings page > advanced menu
+
+`IP_of_Node` is the IP running the container, it must be the internal wiregard IP for example 10.5.4.1, the port is not opened in the firewall
 
 ## Get the configuration
 You can retrieve the configuration with
@@ -113,7 +116,8 @@ on the root terminal
   
     `runagent -m postgresql1`
 
- the path become : 
+ the path becomes:
+
 ```
     echo $PATH
     /home/postgresql1/.config/bin:/usr/local/agent/pyenv/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/usr/
@@ -124,27 +128,41 @@ on the root terminal
  ```
 podman ps
 CONTAINER ID  IMAGE                                      COMMAND               CREATED        STATUS        PORTS                    NAMES
-d292c6ff28e9  localhost/podman-pause:4.6.1-1702418000                          9 minutes ago  Up 9 minutes  127.0.0.1:20015->80/tcp  80b8de25945f-infra
-d8df02bf6f4a  docker.io/library/mariadb:10.11.5          --character-set-s...  9 minutes ago  Up 9 minutes  127.0.0.1:20015->80/tcp  mariadb-app
-9e58e5bd676f  docker.io/library/nginx:stable-alpine3.17  nginx -g daemon o...  9 minutes ago  Up 9 minutes  127.0.0.1:20015->80/tcp  postgresql-app
+e44540b6e758  localhost/podman-pause:4.9.4-rhel-1714526144              6 minutes ago  Up 6 minutes  127.0.0.1:20025->80/tcp, 0.0.0.0:20024->5432/tcp  a3b7a6c1ec0a-infra
+e78d65411183  docker.io/library/postgres:14.12-bookworm     postgres    6 minutes ago  Up 6 minutes  127.0.0.1:20025->80/tcp, 0.0.0.0:20024->5432/tcp  postgresql-app
+6a642dc061e4  docker.io/dpage/pgadmin4:8.6                              6 minutes ago  Up 6 minutes  127.0.0.1:20025->80/tcp, 0.0.0.0:20024->5432/tcp  pgadmin-app
 ```
 
 you can see what environment variable is inside the container
 ```
 podman exec  postgresql-app env
-PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
-TERM=xterm
-PKG_RELEASE=1
-MARIADB_DB_HOST=127.0.0.1
-MARIADB_DB_NAME=postgresql
-MARIADB_IMAGE=docker.io/mariadb:10.11.5
-MARIADB_DB_TYPE=mysql
+PG_MAJOR=14
+POSTGRES_USER=postgres
+TCP_PORT_PGSQL=20040
 container=podman
-NGINX_VERSION=1.24.0
-NJS_VERSION=0.7.12
-MARIADB_DB_USER=postgresql
-MARIADB_DB_PASSWORD=postgresql
-MARIADB_DB_PORT=3306
+PGADMIN4_IMAGE=docker.io/dpage/pgadmin4:8.6
+TRAEFIK_HOST=p3.rocky9-3.org
+TCP_PORT_PGADMIN=20041
+IMAGE_REOPODIGEST=ghcr.io/nethserver/postgresql@sha256:7214285985f1b83a24349b734e492b39d32627a818a71a71e53ad2f611602904
+IMAGE_DIGEST=sha256:7214285985f1b83a24349b734e492b39d32627a818a71a71e53ad2f611602904
+PGDATA=/var/lib/postgresql/data
+TCP_PORTS_RANGE=20040-20041
+GOSU_VERSION=1.17
+TRAEFIK_HTTP2HTTPS=False
+IMAGE_ID=0697feb0d5ae91dd8aeecfd4ec3cc686ed2a24e8b02a875715898dddfe17ab28
+TCP_PORTS=20040,20041
+LANG=en_US.utf8
+MODULE_ID=postgresql3
+NODE_ID=1
+PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/lib/postgresql/14/bin
+IMAGE_URL=ghcr.io/nethserver/postgresql:opennetwork
+TRAEFIK_LETS_ENCRYPT=False
+MODULE_UUID=631248ae-6296-45c9-84d7-a981fb269dc1
+TCP_PORT=20040
+POSTGRES_PASSWORD=d4079c78337e27abd9b200458a46834dbf205218
+POSTGRES_IMAGE=docker.io/postgres:14.12-bookworm
+PG_VERSION=14.12-1.pgdg120+1
+TERM=xterm
 HOME=/root
 ```
 

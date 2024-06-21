@@ -23,14 +23,13 @@ ExecStart=/usr/bin/podman run --conmon-pidfile %t/pgadmin-app.pid \
     --pod-id-file %t/postgresql.pod-id --replace -d --name  pgadmin-app \
     --volume pgadmin-data:/var/lib/pgadmin:Z \
     --volume ./config_server.json:/pgadmin4/config_server.json:Z \
-    --volume ./pgpassfile:/pgadmin4/pgpassfile:Z \
+    --volume socket:/var/run/postgresql:z \
     --env 'PGADMIN_DEFAULT_EMAIL=admin@nethserver.org' \
     --env 'PGADMIN_DEFAULT_PASSWORD=Nethesis,1234' \
     --env 'PGADMIN_CONFIG_ENHANCED_COOKIE_PROTECTION=True' \
     --env 'PGADMIN_CONFIG_UPGRADE_CHECK_ENABLED=False' \
     --env 'PGADMIN_CONFIG_LOGIN_BANNER="Authorised users only!"' \
     --env 'PGADMIN_CONFIG_CONSOLE_LOG_LEVEL=40' \
-    --env 'PGADMIN_CONFIG_CONFIG_DATABASE_URI="postgresql://postgres:Nethesis,1234@127.0.0.1:5432/postgres"' \
     --env-file=%S/state/smarthost.env \
     ${PGADMIN4_IMAGE}
 ExecStartPost=/usr/bin/bash -c "while ! podman exec pgadmin-app /venv/bin/python3 setup.py get-users ;  do sleep 5 ; done"
