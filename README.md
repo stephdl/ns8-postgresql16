@@ -67,7 +67,7 @@ psql -h IP_of_Node -U postgres -d postgres -p ${TCP_PORT_PGSQL}
 
 The password of postgres user can be found inside a secret file `/home/postgresql1/.config/state/secrets/passwords.env`
 
-`${TCP_PORT_PGSQL} `is set inside the environment of the module
+`${TCP_PORT_PGSQL} `is set inside the environment of the module ans visible in the settings page > advanced menu
 
 `IP_of_Node` is the IP running the container, it must be the internal wiregard IP for example 10.5.4.1, the port is not opened in the firewall
 
@@ -117,6 +117,7 @@ on the root terminal
     `runagent -m postgresql1`
 
  the path becomes:
+
 ```
     echo $PATH
     /home/postgresql1/.config/bin:/usr/local/agent/pyenv/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/usr/
@@ -127,9 +128,9 @@ on the root terminal
  ```
 podman ps
 CONTAINER ID  IMAGE                                      COMMAND               CREATED        STATUS        PORTS                    NAMES
-d292c6ff28e9  localhost/podman-pause:4.6.1-1702418000                          9 minutes ago  Up 9 minutes  127.0.0.1:20015->80/tcp  80b8de25945f-infra
-d8df02bf6f4a  docker.io/library/mariadb:10.11.5          --character-set-s...  9 minutes ago  Up 9 minutes  127.0.0.1:20015->80/tcp  mariadb-app
-9e58e5bd676f  docker.io/library/nginx:stable-alpine3.17  nginx -g daemon o...  9 minutes ago  Up 9 minutes  127.0.0.1:20015->80/tcp  postgresql-app
+e44540b6e758  localhost/podman-pause:4.9.4-rhel-1714526144              6 minutes ago  Up 6 minutes  127.0.0.1:20025->80/tcp, 0.0.0.0:20024->5432/tcp  a3b7a6c1ec0a-infra
+e78d65411183  docker.io/library/postgres:14.12-bookworm     postgres    6 minutes ago  Up 6 minutes  127.0.0.1:20025->80/tcp, 0.0.0.0:20024->5432/tcp  postgresql-app
+6a642dc061e4  docker.io/dpage/pgadmin4:8.6                              6 minutes ago  Up 6 minutes  127.0.0.1:20025->80/tcp, 0.0.0.0:20024->5432/tcp  pgadmin-app
 ```
 
 you can see what environment variable is inside the container
