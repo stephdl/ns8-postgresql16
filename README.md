@@ -116,7 +116,7 @@ on the root terminal
   
     `runagent -m postgresql1`
 
- the path become :
+ the path becomes:
 ```
     echo $PATH
     /home/postgresql1/.config/bin:/usr/local/agent/pyenv/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/usr/
