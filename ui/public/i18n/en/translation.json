@@ -19,7 +19,10 @@
     "no_services": "No services",
     "no_images": "No images",
     "no_volumes": "No volumes",
-    "pgadmin_webapp": "Pgadmin webapp"
+    "pgadmin_webapp": "Pgadmin webapp",
+    "not_configured": "Not configured",
+    "configure": "Configure",
+    "open_webapp": "Open webapp"
   },
   "settings": {
     "title": "Settings",
@@ -33,8 +36,8 @@
     "advanced": "Advanced",
     "configuring": "Configuring",
     "instance_configuration": "Configure postgresql",
-    "tcp_port_pgsql": "TCP port for postgresql",
-    "tcp_port_pgsql_tcp_port_tips": "TCP port restricted to the node localhost",
+    "tcp_port_pgsql": "PostgreSQL Connection TCP Port",
+    "tcp_port_pgsql_tcp_port_tips": "The TCP port is restricted to the cluster network, meaning it is not open to the public and can only be accessed from within the cluster.",
     "domain_already_used_in_traefik": "Domain already used in traefik",
     "host_pattern": "Must be a valid fully qualified domain name",
     "host_format": "Must be a valid fully qualified domain name",
