@@ -1,0 +1,24 @@
+{
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+  "extends": ["config:base"],
+  "ignorePaths": ["**/ui/**"],
+  "regexManagers": [
+    {
+      "fileMatch": ["build-images.sh"],
+      "matchStrings": [
+        "docker\\.io/dpage/pgadmin4:(?<currentValue>[-0-9\\.a-z]+)"
+      ],
+      "datasourceTemplate": "docker",
+      "depNameTemplate": "dpage/pgadmin4"
+    },
+    {
+      "fileMatch": ["build-images.sh"],
+      "matchStrings": [
+        "docker\\.io/postgres:(?<currentValue>[-0-9\\.a-z]+)"
+      ],
+      "datasourceTemplate": "docker",
+      "depNameTemplate": "postgres"
+    }
+  ]
+}
+
