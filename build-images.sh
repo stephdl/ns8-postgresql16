@@ -13,7 +13,7 @@ images=()
 # The image will be pushed to GitHub container registry
 repobase="${REPOBASE:-ghcr.io/nethserver}"
 # Configure the image name
-reponame="postgresql"
+reponame="postgresql16"
 
 # Create a new empty container image
 container=$(buildah from scratch)
@@ -45,7 +45,7 @@ buildah config --entrypoint=/ \
     --label="org.nethserver.authorizations=traefik@node:routeadm" \
     --label="org.nethserver.tcp-ports-demand=2" \
     --label="org.nethserver.rootfull=0" \
-    --label="org.nethserver.images=docker.io/dpage/pgadmin4:8.8 docker.io/postgres:14.12-bookworm" \
+    --label="org.nethserver.images=docker.io/dpage/pgadmin4:8.9 docker.io/postgres:16.4-bookworm" \
     "${container}"
 # Commit the image
 buildah commit "${container}" "${repobase}/${reponame}"
