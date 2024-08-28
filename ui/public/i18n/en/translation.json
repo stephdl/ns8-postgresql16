@@ -18,7 +18,8 @@
     "mount": "Mount",
     "no_services": "No services",
     "no_images": "No images",
-    "no_volumes": "No volumes"
+    "no_volumes": "No volumes",
+    "pgadmin_webapp": "Pgadmin webapp"
   },
   "settings": {
     "title": "Settings",
