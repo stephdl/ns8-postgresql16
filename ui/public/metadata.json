@@ -1,7 +1,7 @@
 {
-  "name": "postgresql",
+  "name": "postgresql v16",
   "description": {
-    "en": "Postgres is a free and open-source relational database management system"
+    "en": "Postgres v16 is a free and open-source relational database management system"
   },
   "categories": ["database"],
   "authors": [
@@ -11,9 +11,9 @@
     }
   ],
   "docs": {
-    "documentation_url": "https://github.com/NethServer/ns8-postgresql/blob/main/README.md",
-    "bug_url": "https://github.com/NethServer/dev",
-    "code_url": "https://github.com/NethServer/ns8-postgresql"
+    "documentation_url": "https://github.com/stephdl/ns8-postgresql16",
+    "bug_url": "https://github.com/stephdl/dev",
+    "code_url": "https://github.com/stephdl/ns8-postgresql16"
   },
-  "source": "ghcr.io/nethserver/postgresql"
+  "source": "ghcr.io/nethserver/v16postgresql"
 }

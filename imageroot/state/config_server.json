@@ -1,13 +1,17 @@
 {
-    "Servers": {
-        "1": {
-            "Name": "Localhost Server",
-            "Group": "Localhost server",
-            "Port": 5432,
-            "Username": "postgres",
-            "Host": "/var/run/postgresql/",
-            "MaintenanceDB": "postgres",
-            "PassFile": ""
-        }
+  "Servers": {
+    "1": {
+      "Name": "postgresql16",
+      "Group": "Servers",
+      "Host": "/var/run/postgresql/",
+      "Port": 5432,
+      "MaintenanceDB": "postgres",
+      "Username": "postgres",
+      "TunnelPort": "22",
+      "KerberosAuthentication": false,
+      "ConnectionParameters": {
+        "passfile": ""
+      }
     }
+  }
 }

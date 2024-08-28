@@ -43,10 +43,44 @@
       <cv-column :md="4" :max="4">
         <NsInfoCard
           light
+          :title="$t('status.pgadmin_webapp')"
+          :description="this.host ? this.host : $t('status.not_configured')"
+          :icon="Wikis32"
+          :loading="loading.getConfiguration"
+          :isErrorShown="error.getConfiguration"
+          :errorTitle="$t('error.cannot_retrieve_configuration')"
+          :errorDescription="error.getConfiguration"
+          class="min-height-card"
+        >
+          <template slot="content">
+            <NsButton
+              v-if="this.host"
+              kind="ghost"
+              :icon="Launch20"
+              :disabled="loading.getConfiguration"
+              @click="goToWebapp"
+            >
+              {{ $t("status.open_webapp") }}
+            </NsButton>
+            <NsButton
+              v-else
+              kind="ghost"
+              :disabled="loading.getConfiguration"
+              :icon="ArrowRight20"
+              @click="goToAppPage(instanceName, 'settings')"
+            >
+              {{ $t("status.configure") }}
+            </NsButton>
+          </template>
+        </NsInfoCard>
+      </cv-column>
+      <cv-column :md="4" :max="4">
+        <NsInfoCard
+          light
           :title="status.instance || '-'"
           :description="$t('status.app_instance')"
           :icon="Application32"
-          :loading="loading.getStatus"
+          :loading="loading.getStatus || loading.getConfiguration"
           class="min-height-card"
         />
       </cv-column>
@@ -57,7 +91,7 @@
           :titleTooltip="installationNodeTitleTooltip"
           :description="$t('status.installation_node')"
           :icon="Chip32"
-          :loading="loading.getStatus"
+          :loading="loading.getStatus || loading.getConfiguration"
           class="min-height-card"
         />
       </cv-column>
@@ -282,6 +316,7 @@ export default {
       urlCheckInterval: null,
       isRedirectChecked: false,
       redirectTimeout: 0,
+      host: "",
       status: {
         instance: "",
         services: [],
@@ -294,6 +329,7 @@ export default {
         getStatus: false,
         listBackupRepositories: false,
         listBackups: false,
+        getConfiguration: false,
       },
       error: {
         getStatus: "",
@@ -343,10 +379,61 @@ export default {
     clearTimeout(this.redirectTimeout);
   },
   created() {
+    this.getConfiguration();
     this.getStatus();
     this.listBackupRepositories();
   },
   methods: {
+    goToWebapp() {
+      window.open(`https://${this.host}`, "_blank");
+    },
+    async getConfiguration() {
+      this.loading.getConfiguration = true;
+      this.error.getConfiguration = "";
+      const taskAction = "get-configuration";
+      const eventId = this.getUuid();
+
+      // register to task error
+      this.core.$root.$once(
+        `${taskAction}-aborted-${eventId}`,
+        this.getConfigurationAborted
+      );
+
+      // register to task completion
+      this.core.$root.$once(
+        `${taskAction}-completed-${eventId}`,
+        this.getConfigurationCompleted
+      );
+
+      const res = await to(
+        this.createModuleTaskForApp(this.instanceName, {
+          action: taskAction,
+          extra: {
+            title: this.$t("action." + taskAction),
+            isNotificationHidden: true,
+            eventId,
+          },
+        })
+      );
+      const err = res[0];
+
+      if (err) {
+        console.error(`error creating task ${taskAction}`, err);
+        this.error.getConfiguration = this.getErrorMessage(err);
+        this.loading.getConfiguration = false;
+        return;
+      }
+    },
+    getConfigurationAborted(taskResult, taskContext) {
+      console.error(`${taskContext.action} aborted`, taskResult);
+      this.error.getConfiguration = this.$t("error.generic_error");
+      this.loading.getConfiguration = false;
+    },
+    getConfigurationCompleted(taskContext, taskResult) {
+      const config = taskResult.output;
+      this.host = config.host;
+      this.loading.getConfiguration = false;
+    },
     async getStatus() {
       this.loading.getStatus = true;
       this.error.getStatus = "";
