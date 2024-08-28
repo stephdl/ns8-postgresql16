@@ -13,7 +13,7 @@ images=()
 # The image will be pushed to GitHub container registry
 repobase="${REPOBASE:-ghcr.io/nethserver}"
 # Configure the image name
-reponame="postgresql16"
+reponame="v16postgresql"
 
 # Create a new empty container image
 container=$(buildah from scratch)
