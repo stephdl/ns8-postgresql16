@@ -1,7 +1,7 @@
 {
-  "name": "postgresql v16",
+  "name": "PostgreSQL v16",
   "description": {
-    "en": "Postgres v16 is a free and open-source relational database management system"
+    "en": "PostgreSQL v16 is a free and open-source relational database management system"
   },
   "categories": ["database"],
   "authors": [
