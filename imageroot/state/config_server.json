@@ -10,7 +10,7 @@
       "TunnelPort": "22",
       "KerberosAuthentication": false,
       "ConnectionParameters": {
-        "passfile": ""
+        "passfile": "../../pgpass"
       }
     }
   }
