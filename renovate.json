@@ -19,6 +19,14 @@
       "datasourceTemplate": "docker",
       "depNameTemplate": "postgres"
     }
+  ],
+  "packageRules": [
+    {
+      "matchPackageNames": [
+        "postgres"
+      ],
+      "allowedVersions": "<= 16"
+    }
   ]
 }
 
