@@ -1,1 +1,5 @@
-
+{
+  "dependencies": {
+    "@nethserver/ns8-ui-lib": "^1.8.0"
+  }
+}
