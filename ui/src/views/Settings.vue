@@ -34,9 +34,9 @@
               tooltipAlignment="center"
               tooltipDirection="right"
             >
-            <template slot="tooltip">
-              <div v-html="$t('settings.password_tips')"></div>
-            </template>
+              <template slot="tooltip">
+                <div v-html="$t('settings.password_tips')"></div>
+              </template>
             </NsTextInput>
             <cv-toggle
               value="letsEncrypt"
