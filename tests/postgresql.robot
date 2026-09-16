@@ -34,6 +34,52 @@ Check postgresql path is configured
 Check if posgresql works as expected
     Wait Until Keyword Succeeds    20 times    3 seconds    Ping postgresql
 
+Check if the database answers
+    # pgAdmin serving its login page says nothing about the engine behind it
+    ${output}  ${rc} =    Execute Command
+    ...    runagent -m ${module_id} podman exec postgresql-app psql -U postgres -tAc 'SELECT version()'
+    ...    return_rc=True
+    Should Be Equal As Integers    ${rc}  0
+    Should Contain    ${output}    PostgreSQL 16
+
+Check if the generated secret is readable only by the module
+    # bin/create-secrets writes it with umask 266, so 0400
+    ${output}  ${rc} =    Execute Command
+    ...    runagent -m ${module_id} bash -c 'stat -c %a $AGENT_STATE_DIR/secrets/passwords.env; grep -c POSTGRES_PASSWORD $AGENT_STATE_DIR/secrets/passwords.env'
+    ...    return_rc=True
+    Should Be Equal As Integers    ${rc}  0
+    Should Contain    ${output}    400
+    ${env}  ${rc} =    Execute Command
+    ...    runagent -m ${module_id} bash -c 'cat $AGENT_STATE_DIR/environment'
+    ...    return_rc=True
+    Should Not Contain    ${env}    POSTGRES_PASSWORD
+
+Check if the database dump is consistent
+    # bin/module-dump-state is what Restic backs up: state-include.conf lists
+    # state/postgresql.pg_dump
+    ${rc} =    Execute Command    runagent -m ${module_id} module-dump-state
+    ...    return_rc=True  return_stdout=False
+    Should Be Equal As Integers    ${rc}  0
+    ${output}  ${rc} =    Execute Command
+    ...    runagent -m ${module_id} bash -c 'head -5 $AGENT_STATE_DIR/postgresql.pg_dump; wc -c < $AGENT_STATE_DIR/postgresql.pg_dump'
+    ...    return_rc=True
+    Should Be Equal As Integers    ${rc}  0
+    Should Contain    ${output}    PostgreSQL database cluster dump
+
+Check if the services are running
+    ${rc} =    Execute Command
+    ...    runagent -m ${module_id} systemctl --user is-active postgresql.service postgresql-app.service pgadmin-app.service
+    ...    return_rc=True  return_stdout=False
+    Should Be Equal As Integers    ${rc}  0
+
+Check if a configuration without the host is refused
+    # The agent exits 10 on a JSON Schema input validation failure
+    ${errors}  ${rc} =    Execute Command
+    ...    api-cli run module/${module_id}/configure-module --data '{"http2https":true,"lets_encrypt":false}'
+    ...    return_rc=True
+    Should Be Equal As Integers    ${rc}  10
+    Should Contain    ${errors}    host
+
 Take screenshots of the module pages
     [Documentation]    Capture what cluster-admin shows, for the software center
     ...                entry. Tagged ui: the shared runner skips it unless
