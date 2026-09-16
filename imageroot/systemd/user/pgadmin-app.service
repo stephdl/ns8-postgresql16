@@ -6,7 +6,7 @@
 [Unit]
 Description=Podman  pgadmin-app.service
 BindsTo=postgresql.service
-After=postgresql.service pgadmin-app.service
+After=postgresql.service postgresql-app.service
 
 [Service]
 Environment=PODMAN_SYSTEMD_UNIT=%n
