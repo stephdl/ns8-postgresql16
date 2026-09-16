@@ -6,13 +6,6 @@ Resource    api.resource
 ${CLUSTER_USER}     admin
 ${CLUSTER_PASSWORD}    Nethesis,1234
 
-Postgres reports its version
-    ${output}  ${err}  ${rc} =    Execute Command
-    ...    runagent -m ${module_id} podman exec postgresql-app psql -U postgres -tAc 'SELECT version()'
-    ...    return_rc=True    return_stderr=True
-    Should Be Equal As Integers    ${rc}  0    psql exited ${rc}: ${err}
-    RETURN    ${output}
-
 *** Test Cases ***
 Check if postgresql is installed correctly
     ${output}  ${rc} =    Execute Command    add-module ${IMAGE_URL} 1
@@ -123,6 +116,13 @@ Check if postgresql is removed correctly
     Should Be Equal As Integers    ${rc}  0
 
 *** Keywords ***
+Postgres reports its version
+    ${output}  ${err}  ${rc} =    Execute Command
+    ...    runagent -m ${module_id} podman exec postgresql-app psql -U postgres -tAc 'SELECT version()'
+    ...    return_rc=True    return_stderr=True
+    Should Be Equal As Integers    ${rc}  0    psql exited ${rc}: ${err}
+    RETURN    ${output}
+
 Login to cluster-admin
     New Page    https://${NODE_ADDR}/cluster-admin/
     Fill Text    text="Username"    ${CLUSTER_USER}
